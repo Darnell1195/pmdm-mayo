@@ -32,13 +32,13 @@ class AddClientFragment : Fragment() {
             val dni = etDni.text.toString()
             val name = etName.text.toString()
             val email = etEmail.text.toString()
-            if (dni.isNotBlank() && name.isNotBlank() && email.isNotBlank()) {
-                viewModel.addClient(dni, name, email)
-                Toast.makeText(requireContext(), "Cliente añadido", Toast.LENGTH_SHORT).show()
 
-            } else {
-                Toast.makeText(requireContext(), "Completa todos los campos", Toast.LENGTH_SHORT).show()
-            }
+        if (dni != "" && name != "" && email != "") {
+           viewModel.addClient(dni, name, email)
+           Toast.makeText(requireContext(), "Cliente añadido", Toast.LENGTH_SHORT).show()
+       } else {
+           Toast.makeText(requireContext(), "Completa todos los campos", Toast.LENGTH_SHORT).show()
+       }
         }
 
         btnBack.setOnClickListener {

@@ -11,7 +11,7 @@
     <item
         android:id="@+id/action_add_sale"
         android:title="Añadir venta"
-        android:icon="@android:drawable/ic_menu_more"
+        android:icon="@drawable/ic_money_sale"
         app:showAsAction="ifRoom"
         android:contentDescription="Añadir una venta" />
 

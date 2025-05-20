@@ -2,6 +2,7 @@ package com.example.pmdm_mayo.client.presentation
 
 import ClientsViewModel
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,17 +33,18 @@ class ClienteSaleFragment : Fragment() {
             spinnerDni.adapter = adapter
         }
 
-        btnSave.setOnClickListener {
-            val dni = spinnerDni.selectedItem?.toString() ?: ""
-            val concept = etConcept.text.toString()
-            val total = etTotal.text.toString()
-            if (dni != "" && concept != "" && total != "") {
 
-                Toast.makeText(requireContext(), "Venta guardada", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(requireContext(), "Completa todos los campos", Toast.LENGTH_SHORT).show()
-            }
-        }
+                btnSave.setOnClickListener {
+                    val dni = spinnerDni.selectedItem?.toString() ?: ""
+                    val concept = etConcept.text.toString()
+                    val total = etTotal.text.toString()
+                    if (dni != "" && concept != "" && total != "") {
+                        Log.d("VentaDebug", "Guardando venta: dni=$dni, concepto=$concept, total=$total")
+                        Toast.makeText(requireContext(), "Venta guardada", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), "Completa todos los campos", Toast.LENGTH_SHORT).show()
+                    }
+                }
 
         btnBack.setOnClickListener {
             parentFragmentManager.popBackStack()

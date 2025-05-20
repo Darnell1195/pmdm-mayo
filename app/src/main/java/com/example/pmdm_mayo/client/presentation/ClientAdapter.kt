@@ -5,15 +5,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pmdm_mayo.client.domain.Client
 import com.example.pmdm_mayo.R
 
 class ClientsAdapter(
     private val onDeleteClick: (String) -> Unit
-) : ListAdapter<Client, ClientsAdapter.ViewHolder>(ClientDiffCallback()) {
+) : RecyclerView.Adapter<ClientsAdapter.ViewHolder>() {
+
+    private var clients: List<Client> = emptyList()
+
+    fun setClients(newClients: List<Client>) {
+        clients = newClients
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -22,9 +27,11 @@ class ClientsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val client = getItem(position)
+        val client = clients[position]
         holder.bind(client, onDeleteClick)
     }
+
+    override fun getItemCount(): Int = clients.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvDni: TextView = itemView.findViewById(R.id.tvDni)
@@ -37,15 +44,6 @@ class ClientsAdapter(
             tvName.text = client.name
             tvEmail.text = client.email
             btnDelete.setOnClickListener { onDeleteClick(client.dni) }
-            itemView.setOnClickListener(null) // Elimina el listener del itemView
         }
     }
-}
-
-class ClientDiffCallback : DiffUtil.ItemCallback<Client>() {
-    override fun areItemsTheSame(oldItem: Client, newItem: Client): Boolean =
-        oldItem.dni == newItem.dni
-
-    override fun areContentsTheSame(oldItem: Client, newItem: Client): Boolean =
-        oldItem == newItem
 }

@@ -34,9 +34,8 @@ class ClienteFragment : Fragment(R.layout.fragment_client) {
         rvClients.layoutManager = LinearLayoutManager(requireContext())
         rvClients.adapter = adapter
 
-        // Observa LiveData en vez de collectLatest
         viewModel.clients.observe(viewLifecycleOwner, Observer { clients ->
-            adapter.submitList(clients)
+            adapter.setClients(clients)
         })
 
         viewModel.error.observe(viewLifecycleOwner, Observer { errorMsg ->

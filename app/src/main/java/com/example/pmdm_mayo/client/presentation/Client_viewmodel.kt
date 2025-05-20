@@ -1,10 +1,10 @@
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pmdm_mayo.client.domain.DeleteClientUseCase
 import com.example.pmdm_mayo.client.domain.GetClientsUseCase
 import com.example.pmdm_mayo.client.domain.Client
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ClientsViewModel(
@@ -12,11 +12,11 @@ class ClientsViewModel(
     private val deleteClientUseCase: DeleteClientUseCase
 ) : ViewModel() {
 
-    private val _clients = MutableStateFlow<List<Client>>(emptyList())
-    val clients: StateFlow<List<Client>> = _clients
+    private val _clients = MutableLiveData<List<Client>>(emptyList())
+    val clients: LiveData<List<Client>> = _clients
 
-    private val _error = MutableStateFlow<String?>(null)
-    val error: StateFlow<String?> = _error
+    private val _error = MutableLiveData<String?>()
+    val error: LiveData<String?> = _error
 
     init {
         loadClients()

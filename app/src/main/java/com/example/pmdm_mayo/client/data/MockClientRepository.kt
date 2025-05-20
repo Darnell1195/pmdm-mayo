@@ -16,7 +16,13 @@ class MockClientRepository : ClientRepository {
     )
 
     override suspend fun getClients(): List<Client> = clients.toList()
+
     override suspend fun deleteClient(dni: String) {
         clients.removeIf { it.dni == dni }
     }
+
+    override suspend fun addClient(client: Client) {
+        clients.add(client)
+    }
+
 }

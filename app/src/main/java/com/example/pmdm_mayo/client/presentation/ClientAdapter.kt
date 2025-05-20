@@ -37,7 +37,7 @@ class ClientsAdapter(
             tvName.text = client.name
             tvEmail.text = client.email
             btnDelete.setOnClickListener { onDeleteClick(client.dni) }
-            itemView.setOnClickListener(null) // Elimina el listener del itemView
+            itemView.setOnClickListener(null)
         }
     }
 }

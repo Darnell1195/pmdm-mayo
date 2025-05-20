@@ -7,3 +7,7 @@ class DeleteClientUseCase(private val repository: ClientRepository) {
     suspend operator fun invoke(dni: String) = repository.deleteClient(dni)
 }
 
+class AddClientUseCase(private val repository: ClientRepository) {
+    suspend operator fun invoke(client: Client) = repository.addClient(client)
+}
+

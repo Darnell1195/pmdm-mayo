@@ -2,6 +2,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pmdm_mayo.client.domain.AddClientUseCase
 import com.example.pmdm_mayo.client.domain.DeleteClientUseCase
 import com.example.pmdm_mayo.client.domain.GetClientsUseCase
 import com.example.pmdm_mayo.client.domain.Client
@@ -9,7 +10,8 @@ import kotlinx.coroutines.launch
 
 class ClientsViewModel(
     private val getClientsUseCase: GetClientsUseCase,
-    private val deleteClientUseCase: DeleteClientUseCase
+    private val deleteClientUseCase: DeleteClientUseCase,
+    private val addClientUseCase: AddClientUseCase
 ) : ViewModel() {
 
     private val _clients = MutableLiveData<List<Client>>(emptyList())
@@ -44,6 +46,17 @@ class ClientsViewModel(
                 }
             } catch (e: Exception) {
                 _error.value = "Error cargando clientes"
+            }
+        }
+    }
+
+    fun addClient(dni: String, name: String, email: String) {
+        viewModelScope.launch {
+            try {
+                addClientUseCase(Client(dni, name, email))
+                loadClients()
+            } catch (e: Exception) {
+                _error.value = "Error añadiendo cliente"
             }
         }
     }

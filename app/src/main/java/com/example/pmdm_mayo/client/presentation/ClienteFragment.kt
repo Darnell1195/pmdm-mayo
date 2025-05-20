@@ -34,7 +34,7 @@ class ClienteFragment : Fragment(R.layout.fragment_client) {
         rvClients.adapter = adapter
 
         viewModel.clients.observe(viewLifecycleOwner, Observer { clients ->
-            adapter.submitList(clients)
+            adapter.setClients(clients)
         })
 
         viewModel.error.observe(viewLifecycleOwner, Observer { errorMsg ->
@@ -43,21 +43,31 @@ class ClienteFragment : Fragment(R.layout.fragment_client) {
             }
         })
 
-        setHasOptionsMenu(true)
-    }
+        val menuHost = requireActivity() as androidx.core.view.MenuHost
+        menuHost.addMenuProvider(object : androidx.core.view.MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_client, menu)
+            }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_client, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_add) {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, AddClientFragment())
-                .addToBackStack(null)
-                .commit()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.action_add -> {
+                        parentFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, AddClientFragment())
+                            .addToBackStack(null)
+                            .commit()
+                        true
+                    }
+                    R.id.action_add_sale -> {
+                        parentFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, ClienteSaleFragment())
+                            .addToBackStack(null)
+                            .commit()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, androidx.lifecycle.Lifecycle.State.RESUMED)
     }
 }
